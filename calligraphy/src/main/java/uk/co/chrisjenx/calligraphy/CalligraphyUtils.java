@@ -173,7 +173,7 @@ public final class CalligraphyUtils {
         final String stringResourceValue = attrs.getAttributeValue(null, attributeName);
 
         if (!attrEnumMappings.isEmpty()) {
-            return attrEnumMappings.get(stringResourceValue);
+            return attrEnumMappings.getFontPath(stringResourceValue);
         }
 
         return stringResourceValue;
@@ -320,7 +320,7 @@ public final class CalligraphyUtils {
     }
 
     static String pullFontPathFromTypedArray(TypedArray typedArray, CalligraphyEnumAttribute enumMapping) {
-        return enumMapping.isEmpty() ? typedArray.getString(0) : enumMapping.get(typedArray.getInt(0, -1));
+        return enumMapping.isEmpty() ? typedArray.getString(0) : enumMapping.getFontPath(typedArray.getInt(0, -1));
     }
 
     private static Boolean sToolbarCheck = null;

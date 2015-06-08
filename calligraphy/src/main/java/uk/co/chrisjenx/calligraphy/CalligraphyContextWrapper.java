@@ -86,6 +86,15 @@ public class CalligraphyContextWrapper extends ContextWrapper {
         super(base);
         mAttributeId = CalligraphyConfig.get().getAttrId();
         mAttrEnumMappings = CalligraphyConfig.get().getAttrEnumMappings();
+        validateFonts();
+    }
+
+    private void validateFonts() {
+        for (String fontPath : mAttrEnumMappings.getFontPaths()) {
+            if (!TypefaceUtils.fontExists(getBaseContext(), fontPath)) {
+                throw new IllegalArgumentException("The font " + fontPath + " does not exist.");
+            }
+        }
     }
 
     /**

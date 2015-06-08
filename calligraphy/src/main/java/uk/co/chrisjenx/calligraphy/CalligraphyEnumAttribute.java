@@ -1,5 +1,6 @@
 package uk.co.chrisjenx.calligraphy;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,14 +18,16 @@ final class CalligraphyEnumAttribute {
         return mEnumIntMap.isEmpty();
     }
 
-    public String get(int enumId) {
+    public String getFontPath(int enumId) {
         return mEnumIntMap.get(enumId);
     }
 
-    public String get(String enumName) {
+    public String getFontPath(String enumName) {
         return mEnumNameMap.get(enumName);
     }
 
-
+    public Collection<String> getFontPaths() {
+        return mEnumNameMap.values();
+    }
 }
 
