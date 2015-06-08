@@ -57,7 +57,7 @@ public final class CalligraphyUtils {
     /**
      * Applies a Typeface to a TextView, if deferred,its recommend you don't call this multiple
      * times, as this adds a TextWatcher.
-     *
+     * <p/>
      * Deferring should really only be used on tricky views which get Typeface set by the system at
      * weird times.
      *
@@ -152,7 +152,7 @@ public final class CalligraphyUtils {
      * @param attributeId if -1 returns null.
      * @return null if attribute is not defined or added to View
      */
-    static String pullFontPathFromView(Context context, AttributeSet attrs, int attributeId) {
+    static String pullFontPathFromView(Context context, AttributeSet attrs, int attributeId, CalligraphyEnumAttribute attrEnumMappings) {
         if (attributeId == -1 || attrs == null)
             return null;
 
@@ -165,9 +165,18 @@ public final class CalligraphyUtils {
         }
 
         final int stringResourceId = attrs.getAttributeResourceValue(null, attributeName, -1);
-        return stringResourceId > 0
-                ? context.getString(stringResourceId)
-                : attrs.getAttributeValue(null, attributeName);
+
+        if (stringResourceId > 0) {
+            return context.getString(stringResourceId);
+        }
+
+        final String stringResourceValue = attrs.getAttributeValue(null, attributeName);
+
+        if (!attrEnumMappings.isEmpty()) {
+            return attrEnumMappings.get(stringResourceValue);
+        }
+
+        return stringResourceValue;
     }
 
     /**
@@ -179,14 +188,14 @@ public final class CalligraphyUtils {
      * @param attributeId if -1 returns null.
      * @return null if attribute is not defined or found in the Style
      */
-    static String pullFontPathFromStyle(Context context, AttributeSet attrs, int attributeId) {
+    static String pullFontPathFromStyle(Context context, AttributeSet attrs, int attributeId, CalligraphyEnumAttribute attrEnumMappings) {
         if (attributeId == -1 || attrs == null)
             return null;
         final TypedArray typedArray = context.obtainStyledAttributes(attrs, new int[]{attributeId});
         if (typedArray != null) {
             try {
                 // First defined attribute
-                String fontFromAttribute = typedArray.getString(0);
+                String fontFromAttribute = pullFontPathFromTypedArray(typedArray, attrEnumMappings);
                 if (!TextUtils.isEmpty(fontFromAttribute)) {
                     return fontFromAttribute;
                 }
@@ -207,7 +216,7 @@ public final class CalligraphyUtils {
      * @param attributeId if -1 returns null.
      * @return returns null if attribute is not defined or if no TextAppearance is found.
      */
-    static String pullFontPathFromTextAppearance(final Context context, AttributeSet attrs, int attributeId) {
+    static String pullFontPathFromTextAppearance(final Context context, AttributeSet attrs, int attributeId, CalligraphyEnumAttribute attrEnumMappings) {
         if (attributeId == -1 || attrs == null) {
             return null;
         }
@@ -228,7 +237,7 @@ public final class CalligraphyUtils {
         final TypedArray textAppearanceAttrs = context.obtainStyledAttributes(textAppearanceId, new int[]{attributeId});
         if (textAppearanceAttrs != null) {
             try {
-                return textAppearanceAttrs.getString(0);
+                return pullFontPathFromTypedArray(typedArrayAttr, attrEnumMappings);
             } catch (Exception ignore) {
                 // Failed for some reason.
                 return null;
@@ -247,7 +256,7 @@ public final class CalligraphyUtils {
      * @param attributeId if -1 returns null.
      * @return null if no theme or attribute defined.
      */
-    static String pullFontPathFromTheme(Context context, int styleAttrId, int attributeId) {
+    static String pullFontPathFromTheme(Context context, int styleAttrId, int attributeId, CalligraphyEnumAttribute attrEnumMappings) {
         if (styleAttrId == -1 || attributeId == -1)
             return null;
 
@@ -257,7 +266,7 @@ public final class CalligraphyUtils {
         theme.resolveAttribute(styleAttrId, value, true);
         final TypedArray typedArray = theme.obtainStyledAttributes(value.resourceId, new int[]{attributeId});
         try {
-            String font = typedArray.getString(0);
+            String font = pullFontPathFromTypedArray(typedArray, attrEnumMappings);
             return font;
         } catch (Exception ignore) {
             // Failed for some reason.
@@ -276,7 +285,7 @@ public final class CalligraphyUtils {
      * @param attributeId    if -1 returns null.
      * @return null if no theme or attribute defined.
      */
-    static String pullFontPathFromTheme(Context context, int styleAttrId, int subStyleAttrId, int attributeId) {
+    static String pullFontPathFromTheme(Context context, int styleAttrId, int subStyleAttrId, int attributeId, CalligraphyEnumAttribute attrEnumMappings) {
         if (styleAttrId == -1 || attributeId == -1)
             return null;
 
@@ -299,7 +308,7 @@ public final class CalligraphyUtils {
         final TypedArray subTypedArray = context.obtainStyledAttributes(subStyleResId, new int[]{attributeId});
         if (subTypedArray != null) {
             try {
-                return subTypedArray.getString(0);
+                return pullFontPathFromTypedArray(subTypedArray, attrEnumMappings);
             } catch (Exception ignore) {
                 // Failed for some reason.
                 return null;
@@ -308,6 +317,10 @@ public final class CalligraphyUtils {
             }
         }
         return null;
+    }
+
+    static String pullFontPathFromTypedArray(TypedArray typedArray, CalligraphyEnumAttribute enumMapping) {
+        return enumMapping.isEmpty() ? typedArray.getString(0) : enumMapping.get(typedArray.getInt(0, -1));
     }
 
     private static Boolean sToolbarCheck = null;

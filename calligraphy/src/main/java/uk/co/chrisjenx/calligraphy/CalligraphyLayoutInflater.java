@@ -25,28 +25,31 @@ class CalligraphyLayoutInflater extends LayoutInflater implements CalligraphyAct
     };
 
     private final int mAttributeId;
+    private final CalligraphyEnumAttribute mAttrEnumMappings;
     private final CalligraphyFactory mCalligraphyFactory;
     // Reflection Hax
     private boolean mSetPrivateFactory = false;
     private Field mConstructorArgs = null;
 
-    protected CalligraphyLayoutInflater(Context context, int attributeId) {
+    protected CalligraphyLayoutInflater(Context context, int attributeId, CalligraphyEnumAttribute attrEnumMappings) {
         super(context);
         mAttributeId = attributeId;
-        mCalligraphyFactory = new CalligraphyFactory(attributeId);
+        mAttrEnumMappings = attrEnumMappings;
+        mCalligraphyFactory = new CalligraphyFactory(attributeId, attrEnumMappings);
         setUpLayoutFactories(false);
     }
 
-    protected CalligraphyLayoutInflater(LayoutInflater original, Context newContext, int attributeId, final boolean cloned) {
+    protected CalligraphyLayoutInflater(LayoutInflater original, Context newContext, int attributeId, CalligraphyEnumAttribute attrEnumMappings, final boolean cloned) {
         super(original, newContext);
         mAttributeId = attributeId;
-        mCalligraphyFactory = new CalligraphyFactory(attributeId);
+        mAttrEnumMappings = attrEnumMappings;
+        mCalligraphyFactory = new CalligraphyFactory(attributeId, attrEnumMappings);
         setUpLayoutFactories(cloned);
     }
 
     @Override
     public LayoutInflater cloneInContext(Context newContext) {
-        return new CalligraphyLayoutInflater(this, newContext, mAttributeId, true);
+        return new CalligraphyLayoutInflater(this, newContext, mAttributeId, mAttrEnumMappings, true);
     }
 
     // ===

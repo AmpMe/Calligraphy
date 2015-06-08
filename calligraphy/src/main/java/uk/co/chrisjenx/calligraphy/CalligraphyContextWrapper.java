@@ -16,6 +16,7 @@ public class CalligraphyContextWrapper extends ContextWrapper {
     private CalligraphyLayoutInflater mInflater;
 
     private final int mAttributeId;
+    private final CalligraphyEnumAttribute mAttrEnumMappings;
 
     /**
      * Uses the default configuration from {@link uk.co.chrisjenx.calligraphy.CalligraphyConfig}
@@ -84,6 +85,7 @@ public class CalligraphyContextWrapper extends ContextWrapper {
     CalligraphyContextWrapper(Context base) {
         super(base);
         mAttributeId = CalligraphyConfig.get().getAttrId();
+        mAttrEnumMappings = CalligraphyConfig.get().getAttrEnumMappings();
     }
 
     /**
@@ -102,13 +104,14 @@ public class CalligraphyContextWrapper extends ContextWrapper {
     public CalligraphyContextWrapper(Context base, int attributeId) {
         super(base);
         mAttributeId = attributeId;
+        mAttrEnumMappings = new CalligraphyEnumAttribute();
     }
 
     @Override
     public Object getSystemService(String name) {
         if (LAYOUT_INFLATER_SERVICE.equals(name)) {
             if (mInflater == null) {
-                mInflater = new CalligraphyLayoutInflater(LayoutInflater.from(getBaseContext()), this, mAttributeId, false);
+                mInflater = new CalligraphyLayoutInflater(LayoutInflater.from(getBaseContext()), this, mAttributeId, mAttrEnumMappings, false);
             }
             return mInflater;
         }

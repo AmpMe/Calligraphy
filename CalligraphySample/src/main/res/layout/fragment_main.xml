@@ -22,6 +22,7 @@
             android:text="@string/default_theme"/>
 
         <TextView
+            font="RobotoBold"
             fontPath="fonts/Roboto-Bold.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,6 +68,7 @@
             android:textAppearance="@style/TextAppearance.FontPathView"/>
 
         <uk.co.chrisjenx.calligraphy.sample.CustomTextView
+            font="OswaldStencbab"
             fontPath="fonts/Oswald-Stencbab.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -85,6 +87,7 @@
             android:layout="@layout/stub_with_font_path"/>
 
         <CheckBox
+            font="OswaldStencbab"
             fontPath="fonts/Oswald-Stencbab.ttf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -94,6 +97,7 @@
 
         <EditText
             android:id="@+id/edit_text"
+            font="RobotoBold"
             fontPath="fonts/Roboto-Bold.ttf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -116,6 +120,7 @@
 
         <Button
             android:id="@+id/button_bold"
+            font="RobotoBold"
             fontPath="fonts/Roboto-Bold.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
