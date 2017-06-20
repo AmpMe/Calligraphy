@@ -4,7 +4,6 @@ allprojects {
         mavenCentral()
     }
     // Is Release Build?
-    ext.isReleaseVersion = has("release")
     ext.versionCodeInt = getProperty('VERSION_CODE').toInteger()
     version = VERSION_NAME
 }
