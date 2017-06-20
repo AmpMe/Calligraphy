@@ -1,9 +1,12 @@
 package uk.co.chrisjenx.calligraphy;
 
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.util.Log;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,6 +74,21 @@ public final class TypefaceUtils {
      */
     public static boolean isLoaded(Typeface typeface) {
         return typeface != null && sCachedFonts.containsValue(typeface);
+    }
+
+    /**
+     * Is this font path valid ?
+     * @param filePath     The path of the file.
+     * @return True if the font is valid
+     */
+    public static boolean fontExists(Context context, String filePath) {
+        try {
+            InputStream is = context.getResources().getAssets().open(filePath);
+            is.close();
+            return true;
+        } catch (IOException ex) {
+            return false;
+        }
     }
 
     private TypefaceUtils() {

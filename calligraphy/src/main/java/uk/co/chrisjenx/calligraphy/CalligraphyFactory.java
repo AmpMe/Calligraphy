@@ -11,10 +11,13 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
+import java.util.Map;
+
 class CalligraphyFactory {
 
     private static final String ACTION_BAR_TITLE = "action_bar_title";
     private static final String ACTION_BAR_SUBTITLE = "action_bar_subtitle";
+    private final CalligraphyEnumAttribute mAttrEnumMappings;
 
     /**
      * Some styles are in sub styles, such as actionBarTextStyle etc..
@@ -92,8 +95,9 @@ class CalligraphyFactory {
 
     private final int mAttributeId;
 
-    public CalligraphyFactory(int attributeId) {
+    public CalligraphyFactory(int attributeId, CalligraphyEnumAttribute attrEnumMappings) {
         this.mAttributeId = attributeId;
+        this.mAttrEnumMappings = attrEnumMappings;
     }
 
     /**
@@ -125,25 +129,25 @@ class CalligraphyFactory {
             // Since we're not using namespace it's a little bit tricky
 
             // Try view xml attributes
-            String textViewFont = CalligraphyUtils.pullFontPathFromView(context, attrs, mAttributeId);
+            String textViewFont = CalligraphyUtils.pullFontPathFromView(context, attrs, mAttributeId, mAttrEnumMappings);
 
             // Try view style attributes
             if (TextUtils.isEmpty(textViewFont)) {
-                textViewFont = CalligraphyUtils.pullFontPathFromStyle(context, attrs, mAttributeId);
+                textViewFont = CalligraphyUtils.pullFontPathFromStyle(context, attrs, mAttributeId, mAttrEnumMappings);
             }
 
             // Try View TextAppearance
             if (TextUtils.isEmpty(textViewFont)) {
-                textViewFont = CalligraphyUtils.pullFontPathFromTextAppearance(context, attrs, mAttributeId);
+                textViewFont = CalligraphyUtils.pullFontPathFromTextAppearance(context, attrs, mAttributeId, mAttrEnumMappings);
             }
 
             // Try theme attributes
             if (TextUtils.isEmpty(textViewFont)) {
                 final int[] styleForTextView = getStyleForTextView((TextView) view);
                 if (styleForTextView[1] != -1)
-                    textViewFont = CalligraphyUtils.pullFontPathFromTheme(context, styleForTextView[0], styleForTextView[1], mAttributeId);
+                    textViewFont = CalligraphyUtils.pullFontPathFromTheme(context, styleForTextView[0], styleForTextView[1], mAttributeId, mAttrEnumMappings);
                 else
-                    textViewFont = CalligraphyUtils.pullFontPathFromTheme(context, styleForTextView[0], mAttributeId);
+                    textViewFont = CalligraphyUtils.pullFontPathFromTheme(context, styleForTextView[0], mAttributeId, mAttrEnumMappings);
             }
 
             // Still need to defer the Native action bar, appcompat-v7:21+ uses the Toolbar underneath. But won't match these anyway.

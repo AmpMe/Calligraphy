@@ -75,6 +75,10 @@ public class CalligraphyConfig {
      */
     private final int mAttrId;
     /**
+     * Enum mappings
+     */
+    private final CalligraphyEnumAttribute mAttrEnumMappings;
+    /**
      * Use Reflection to inject the private factory.
      */
     private final boolean mReflection;
@@ -91,6 +95,7 @@ public class CalligraphyConfig {
         mIsFontSet = builder.isFontSet;
         mFontPath = builder.fontAssetPath;
         mAttrId = builder.attrId;
+        mAttrEnumMappings = builder.attrEnumMappings;
         mReflection = builder.reflection;
         mCustomViewCreation = builder.customViewCreation;
         final Map<Class<? extends TextView>, Integer> tempMap = new HashMap<>(DEFAULT_STYLES);
@@ -131,6 +136,13 @@ public class CalligraphyConfig {
         return mAttrId;
     }
 
+    /**
+     * @return the enum mappings for the custom enum attribute
+     */
+    public CalligraphyEnumAttribute getAttrEnumMappings() {
+        return mAttrEnumMappings;
+    }
+
     public static class Builder {
         /**
          * Default AttrID if not set.
@@ -149,6 +161,10 @@ public class CalligraphyConfig {
          */
         private int attrId = R.attr.fontPath;
         /**
+         * Custom attr enum mapping
+         */
+        private final CalligraphyEnumAttribute attrEnumMappings = new CalligraphyEnumAttribute();
+        /**
          * Has the user set the default font path.
          */
         private boolean isFontSet = false;
@@ -163,12 +179,26 @@ public class CalligraphyConfig {
 
         /**
          * This defaults to R.attr.fontPath. So only override if you want to use your own attrId.
+         * If attribute type is enum, you must also provide your fontMappings with {@link #fontMapping(String, int, String)}
          *
          * @param fontAssetAttrId the custom attribute to look for fonts in assets.
          * @return this builder.
          */
         public Builder setFontAttrId(int fontAssetAttrId) {
             this.attrId = fontAssetAttrId != INVALID_ATTR_ID ? fontAssetAttrId : INVALID_ATTR_ID;
+            return this;
+        }
+
+        /**
+         * This must be set if the font attribute is an enum. It maps between font path and enum value.
+         *
+         * @param enumName the custom enum name
+         * @param enumId the custom enum value i
+         * @param fontPath the custom enum font path
+         * @return this builder.
+         */
+        public Builder fontMapping(String enumName, int enumId, String fontPath) {
+            this.attrEnumMappings.add(enumName, enumId, fontPath);
             return this;
         }
 

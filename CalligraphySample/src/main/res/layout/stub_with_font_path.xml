@@ -1,4 +1,5 @@
 <TextView
+    font="OswaldStencbab"
     fontPath="fonts/Oswald-Stencbab.ttf"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"

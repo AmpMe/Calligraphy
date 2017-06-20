@@ -4,11 +4,10 @@ allprojects {
         mavenCentral()
     }
     // Is Release Build?
-    ext.isReleaseVersion = has("release")
     ext.versionCodeInt = getProperty('VERSION_CODE').toInteger()
     version = VERSION_NAME
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.2'
+    gradleVersion = '2.2.3'
 }

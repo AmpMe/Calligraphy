@@ -20,6 +20,7 @@
 
     <style name="AppTheme.ActionBar.TextAppearance" parent="android:TextAppearance.Holo.Widget.ActionBar.Title.Inverse">
         <item name="fontPath">fonts/Oswald-Stencbab.ttf</item>
+        <item name="font">OswaldStencbab</item>
     </style>
 
 
@@ -28,6 +29,7 @@
     <style name="TextViewNoStyleParent">
         <item name="android:textColor">@android:color/holo_blue_dark</item>
         <item name="fontPath">fonts/gtw.ttf</item>
+        <item name="font">gtw</item>
     </style>
 
     <style name="AppTheme.Widget.TextView" parent="android:Widget.Holo.Light.TextView">
@@ -37,6 +39,8 @@
 
     <style name="AppTheme.Widget.TextView.Style">
         <item name="fontPath">fonts/RobotoCondensed-Regular.ttf</item>
+        <item name="font">RobotoCondensedRegular</item>
+
     </style>
 
     <style name="AppTheme.Widget.TextViewAppearanceStyle" parent="android:Widget.Holo.Light.TextView">
@@ -46,18 +50,21 @@
     <style name="TextAppearance.FontPath" parent="android:TextAppearance">
         <!-- Custom Attr-->
         <item name="fontPath">fonts/RobotoCondensed-Regular.ttf</item>
+        <item name="font">RobotoCondensedRegular</item>
         <item name="android:textColor">#444</item>
     </style>
 
     <style name="TextAppearance.FontPathView" parent="android:TextAppearance">
         <!-- Custom Attr-->
         <item name="fontPath">fonts/Oswald-Stencbab.ttf</item>
+        <item name="font">OswaldStencbab</item>
         <item name="android:textColor">#444</item>
     </style>
 
     <!-- Custom Class Styles -->
     <style name="TextField" parent="android:Widget.Holo.Light.TextView">
         <item name="fontPath">fonts/gtw.ttf</item>
+        <item name="font">gtw</item>
         <item name="android:textSize">@dimen/abc_text_size_small_material</item>
     </style>
 
